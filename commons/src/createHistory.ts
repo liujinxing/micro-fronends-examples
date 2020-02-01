@@ -30,6 +30,15 @@ function createHistory(moduleName: string, isBrowser?: boolean) {
   let currentLocation = appHistory.location;
   let currentAction = "PUSH";
 
+  if (!isBrowser) {
+    appHistory.location = {
+      pathname: location.pathname,
+      search: location.search,
+      hash: location.hash,
+      state: null
+    };
+  }
+
   appHistory.listen((location, action) => {
     if (isSameLocation(location, currentLocation) && currentAction === action) {
       return;
