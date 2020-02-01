@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "workspaces": [
+    "app-shell",
+    "module-a",
+    "module-b",
+    "vendor",
+    "commons"
+  ]
+}

@@ -34,12 +34,14 @@ function ModuleLoader() {
       dispatchEvent(EventType.SHOW_MODULE, { moduleName });
     };
 
-    showModule();
+    if (moduleName) {
+      showModule();
 
-    return () => {
-      dispatchEvent(EventType.HIDE_MODULE, { moduleName });
-      setModules(prev => prev.filter(item => item !== moduleName));
-    };
+      return () => {
+        dispatchEvent(EventType.HIDE_MODULE, { moduleName });
+        setModules(prev => prev.filter(item => item !== moduleName));
+      };
+    }
   }, [moduleName]);
 
   return (

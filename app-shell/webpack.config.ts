@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import { Configuration } from "webpack";
+import webpack, { Configuration } from "webpack";
 import { pathExists } from "fs-extra";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import globby from "globby";
@@ -38,11 +38,15 @@ const webpackConfig: Configuration & {
   },
 
   devServer: {
-    contentBase: [resolve(__dirname, "dist"), resolve(__dirname, "public")],
+    contentBase: [
+      resolve(__dirname, "dist"),
+      resolve(__dirname, "public"),
+      resolve(__dirname, "../vendor/dist")
+    ],
     compress: true,
     port: 9000,
     historyApiFallback: true,
-    setup: app => {
+    before: app => {
       const modules = globby
         .sync(["*"], {
           cwd: resolve("../"),
@@ -68,7 +72,14 @@ const webpackConfig: Configuration & {
         });
       });
     }
-  }
+  },
+
+  plugins: [
+    new webpack.DllReferencePlugin({
+      context: resolve(__dirname, ".."),
+      manifest: require("../vendor/dist/vendor-manifest.json")
+    })
+  ]
 };
 
 export default webpackConfig;

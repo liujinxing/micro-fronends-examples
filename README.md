@@ -29,4 +29,12 @@
 5. [x] 确保只加载一次模块
 6. [x] 模块销毁
 
+### 公共的第三方依赖
+
+采用 [webpack dll](https://webpack.js.org/plugins/dll-plugin) 的方式，将公共的第三方依赖（如 react、react-dom、react-router-dom、history 等）统一打包到 `vendor.js` 中。
+
+采用这种方式还需要一些额外的处理：
+
+- [ ] vendor.js 缓存（hash 化）
+
 ### 难点 1：hmr

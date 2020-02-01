@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import { Configuration } from "webpack";
+import webpack, { Configuration } from "webpack";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 
 const webpackConfig: Configuration = {
@@ -31,7 +31,14 @@ const webpackConfig: Configuration = {
         }
       }
     ]
-  }
+  },
+
+  plugins: [
+    new webpack.DllReferencePlugin({
+      context: resolve(__dirname, ".."),
+      manifest: require("../vendor/dist/vendor-manifest.json")
+    })
+  ]
 };
 
 export default webpackConfig;
