@@ -2,6 +2,7 @@ import { resolve } from "path";
 import { Configuration } from "webpack";
 import { pathExists } from "fs-extra";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+import globby from "globby";
 
 const webpackConfig: Configuration & {
   devServer: any;
@@ -42,35 +43,29 @@ const webpackConfig: Configuration & {
     port: 9000,
     historyApiFallback: true,
     setup: app => {
-      app.get(/^\/module-b\/.+/, async (req, res) => {
-        const { path } = req;
-        const sourcePath = resolve(
-          __dirname,
-          `../${path.replace("/module-b", "/module-b/dist")}`
-        );
+      const modules = globby
+        .sync(["*"], {
+          cwd: resolve("../"),
+          onlyDirectories: true
+        })
+        .filter(moduleName => moduleName.startsWith("module-"));
 
-        const isExists = await pathExists(sourcePath);
+      modules.forEach(moduleName => {
+        app.get(new RegExp(`^/${moduleName}/.+`), async (req, res) => {
+          const { path } = req;
+          const sourcePath = resolve(
+            __dirname,
+            `../${path.replace(`/${moduleName}`, `/${moduleName}/dist`)}`
+          );
 
-        if (isExists) {
-          res.sendFile(sourcePath);
-        } else {
-          res.sendFile(resolve(__dirname, "public/index.html"));
-        }
-      });
-      app.get(/^\/module-a\/.+/, async (req, res) => {
-        const { path } = req;
-        const sourcePath = resolve(
-          __dirname,
-          `../${path.replace("/module-a", "/module-a/dist")}`
-        );
+          const isExists = await pathExists(sourcePath);
 
-        const isExists = await pathExists(sourcePath);
-
-        if (isExists) {
-          res.sendFile(sourcePath);
-        } else {
-          res.sendFile(resolve(__dirname, "public/index.html"));
-        }
+          if (isExists) {
+            res.sendFile(sourcePath);
+          } else {
+            res.sendFile(resolve(__dirname, "public/index.html"));
+          }
+        });
       });
     }
   }
