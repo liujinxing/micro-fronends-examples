@@ -1,6 +1,15 @@
-import { createBrowserHistory, Location, Action } from "history";
+import { createBrowserHistory, createMemoryHistory, Location } from "history";
 import isEqual from "react-fast-compare";
+import { HistoryChangeEvent, EventType } from "./types";
+import dispatchEvent from "./dispatchEvent";
+import regsiterEvent from "./registerEvent";
 
+/**
+ * 判断是否是相同的路由位置
+ *
+ * @param location 路由位置
+ * @param newLocation 新的路由位置
+ */
 function isSameLocation(location: Location, newLocation: Location) {
   return (
     location.hash === newLocation.hash &&
@@ -10,14 +19,14 @@ function isSameLocation(location: Location, newLocation: Location) {
   );
 }
 
-type HistoryEvent = CustomEvent<{
-  location: Location;
-  action: Action;
-  from: string;
-}>;
-
-function create(moduleName: string) {
-  const appHistory = createBrowserHistory();
+/**
+ * 创建历史对象
+ *
+ * @param moduleName 模块名
+ * @param isBrowser 是否启用浏览器特性，将路由同步到浏览器历史中
+ */
+function createHistory(moduleName: string, isBrowser?: boolean) {
+  const appHistory = isBrowser ? createBrowserHistory() : createMemoryHistory();
   let currentLocation = appHistory.location;
   let currentAction = "PUSH";
 
@@ -28,20 +37,14 @@ function create(moduleName: string) {
 
     currentLocation = location;
     currentAction = action;
-    const historyEvent: HistoryEvent = new CustomEvent(
-      "sinouiapp.history.change",
-      {
-        detail: {
-          location,
-          action,
-          from: moduleName
-        }
-      }
-    );
-    window.dispatchEvent(historyEvent);
+    dispatchEvent(EventType.HISTORY_CHANGE, {
+      location,
+      action,
+      from: moduleName
+    });
   });
 
-  window.addEventListener("sinouiapp.history.change", (event: HistoryEvent) => {
+  regsiterEvent(EventType.HISTORY_CHANGE, (event: HistoryChangeEvent) => {
     const {
       detail: { from, location, action }
     } = event;
@@ -59,4 +62,4 @@ function create(moduleName: string) {
   return appHistory;
 }
 
-export default create;
+export default createHistory;

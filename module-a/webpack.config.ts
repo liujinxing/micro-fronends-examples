@@ -1,5 +1,6 @@
 import { resolve } from "path";
 import { Configuration } from "webpack";
+import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 
 const webpackConfig: Configuration = {
   mode: "development",
@@ -13,14 +14,14 @@ const webpackConfig: Configuration = {
   },
 
   resolve: {
-    extensions: [".ts", ".tsx", ".mjs", ".js"]
+    extensions: [".ts", ".tsx", ".mjs", ".js"],
+    plugins: [new TsconfigPathsPlugin()]
   },
 
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        include: resolve(__dirname, "src"),
         use: {
           loader: "babel-loader",
           options: {

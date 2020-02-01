@@ -1,9 +1,9 @@
 import React from "react";
 import { Router, Route } from "react-router-dom";
 import Loadable from "react-loadable";
-import create from "./app-history";
+import { createHistory } from "@sinouiapp/commons";
 
-const appHistory = create("module-b");
+const appHistory = createHistory("module-b");
 
 const PageA = Loadable({
   loader: () => import(/* webpackChunkName: 'PageA' */ "./PageA"),

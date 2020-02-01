@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "paths": {
+      "@sinouiapp/commons": ["../commons/src"]
+    }
+  }
+}

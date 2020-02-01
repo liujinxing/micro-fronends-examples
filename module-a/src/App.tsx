@@ -2,9 +2,9 @@ import React from "react";
 import { Router, Route } from "react-router-dom";
 import PageA from "./PageA";
 import PageB from "./PageB";
-import create from "./app-history";
+import { createHistory } from "@sinouiapp/commons";
 
-const history = create("module-a");
+const history = createHistory("module-a");
 
 function App() {
   return (

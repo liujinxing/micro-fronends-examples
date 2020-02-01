@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
   "devDependencies": {
     "@types/fs-extra": "^8.0.1",
     "@types/react": "^16.9.19",
@@ -14,17 +17,15 @@
     "babel-preset-ts-lib": "^0.9.0",
     "fs-extra": "^8.1.0",
     "ts-node": "^8.6.2",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
     "typescript": "^3.7.5",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
-    "@sinoui/http": "^1.0.0",
-    "history": "^4.10.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-fast-compare": "^2.0.4",
     "react-router-dom": "^5.1.2"
   }
 }

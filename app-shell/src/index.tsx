@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router, Route, Link } from "react-router-dom";
-import create from "./app-history";
 import ModuleLoader from "./ModuleLoader";
+import { createHistory } from "@sinouiapp/commons";
 
-const appHistory = create("app-shell");
+const appHistory = createHistory("app-shell", true);
 
 const App = () => {
   return (

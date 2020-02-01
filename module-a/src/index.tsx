@@ -1,5 +1,4 @@
-import React from "react";
-import ReactDOM from "react-dom";
 import App from "./App";
+import { renderModule } from "@sinouiapp/commons";
 
-ReactDOM.render(<App />, document.getElementById("module-a-root"));
+renderModule("module-a", App);
