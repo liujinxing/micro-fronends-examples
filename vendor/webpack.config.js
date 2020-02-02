@@ -13,6 +13,8 @@ module.exports = {
       "react-dom",
       "react-router-dom",
       "history",
+      "styled-components",
+      "redux",
       path.resolve(__dirname, "../commons/src/index.ts")
     ]
   },
@@ -35,7 +37,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, "dist"),
     filename: "[name].js",
-    library: "[name]_[hash]"
+    library: "[name]"
   },
 
   plugins: [
@@ -43,7 +45,7 @@ module.exports = {
     new webpack.DllPlugin({
       context: path.join(__dirname, ".."),
       path: path.join(__dirname, "dist", "[name]-manifest.json"),
-      name: "[name]_[hash]"
+      name: "[name]"
     })
   ]
 };
